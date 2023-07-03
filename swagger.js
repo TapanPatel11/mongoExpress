@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: 'https://mongoservice-c3ky.onrender.com:10000',
+        url: 'https://mongoservice-c3ky.onrender.com',
         description: 'Development server',
       },
     ],
