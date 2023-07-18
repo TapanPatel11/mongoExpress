@@ -276,3 +276,69 @@ router.post('/add', async(req,res) =>{
         res.status(400).json({message:err.message})
     }
 })
+
+/**
+ * @swagger
+ * /delete/{id}:
+ *   delete:
+ *     summary: Delete user by ID
+ *     description: Delete a user by their ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the request was successful
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ */
+router.delete('/delete/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const user = await User.findByIdAndDelete(id);
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.json({
+        message: 'User deleted',
+        success: true,
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
